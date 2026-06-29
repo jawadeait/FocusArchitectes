@@ -680,7 +680,14 @@ function App() {
   const projectCardRefs = useRef<Array<HTMLElement | null>>([]);
   const [openExpertise, setOpenExpertise] = useState<number | null>(null);
   const [activeProcess, setActiveProcess] = useState(0);
-  const [path, setPath] = useState(() => window.location.pathname);
+  const normalizePath = (nextPath: string) => {
+    if (nextPath.length > 1 && nextPath.endsWith('/')) {
+      return nextPath.slice(0, -1);
+    }
+
+    return nextPath || '/';
+  };
+  const [path, setPath] = useState(() => normalizePath(window.location.pathname));
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<(typeof featuredProjectGallery)[number] | null>(null);
   const currentProject = projectItems.find((project) => projectPath(project) === path);
   const isFeaturedProjectDetail = currentProject?.title === 'Résidence W - Villa type 2A';
@@ -843,7 +850,16 @@ function App() {
   }, [selectedGalleryImage]);
 
   useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
+    const navigateTo = (nextPath: string) => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill(true));
+      setSelectedGalleryImage(null);
+      setOpenExpertise(null);
+      setPath(normalizePath(nextPath));
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      window.requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+
+    const handlePopState = () => navigateTo(window.location.pathname);
     const handleClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
         return;
@@ -857,14 +873,19 @@ function App() {
 
       const url = new URL(link.href);
 
-      if (url.origin !== window.location.origin || url.pathname === window.location.pathname) {
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+
+      const nextPath = normalizePath(url.pathname);
+
+      if (nextPath === path) {
         return;
       }
 
       event.preventDefault();
-      window.history.pushState({}, '', url.pathname);
-      setPath(url.pathname);
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      window.history.pushState({}, '', nextPath);
+      navigateTo(nextPath);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -874,9 +895,13 @@ function App() {
       window.removeEventListener('popstate', handlePopState);
       document.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [path]);
 
   useLayoutEffect(() => {
+    if (path !== '/') {
+      return;
+    }
+
     const hero = heroRef.current;
     const video = videoRef.current;
 
@@ -976,6 +1001,10 @@ function App() {
   }, [path]);
 
   useLayoutEffect(() => {
+    if (path !== '/') {
+      return;
+    }
+
     const section = founderRef.current;
     const words = founderWordRefs.current.filter((word): word is HTMLSpanElement => Boolean(word));
 

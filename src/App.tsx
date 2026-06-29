@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -9,16 +10,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
-  Compass,
   HardHat,
-  Leaf,
   Mail,
   MapPinned,
   MapPin,
   Menu,
   Phone,
   Send,
-  SunMedium,
   X,
   type LucideIcon,
 } from 'lucide-react';
@@ -32,10 +30,6 @@ const projectImage = (path: string) => encodeURI(path);
 
 const founderImageSrc = projectImage('/Projects_Realisations/AJANA ZOUHEIR.jpeg');
 
-const aboutVisualSrc = projectImage(
-  '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2A.jpeg',
-);
-
 const whatsappHref =
   'https://wa.me/212676990471?text=' +
   encodeURIComponent(
@@ -47,29 +41,9 @@ const contactEmail = 'jawade.aithammou@gmail.com';
 const founderStatement =
   'Chez 2AAZ, nous imaginons des espaces qui racontent une histoire, révèlent la lumière et créent une connexion naturelle entre les personnes et leur environnement. Notre ambition est de concevoir une architecture sincère, durable et intemporelle.';
 
-const aboutTypewriterWords = ['créativité', 'innovation', 'inspiration', 'précision', 'lumière'];
-
-const aboutPrinciples: Array<{
-  title: string;
-  description: string;
-  Icon: LucideIcon;
-}> = [
-  {
-    title: 'Contexte',
-    description: 'Chaque projet part du site, de ses contraintes et de son potentiel.',
-    Icon: Compass,
-  },
-  {
-    title: 'Lumière',
-    description: 'Les volumes sont dessinés pour révéler les vues, les ombres et les usages.',
-    Icon: SunMedium,
-  },
-  {
-    title: 'Durabilité',
-    description: 'Une architecture sobre, élégante et adaptée au climat marocain.',
-    Icon: Leaf,
-  },
-];
+const aboutTypewriterWords = ['la lumière', 'la créativité', 'la précision', "l'inspiration", "l'innovation"];
+const aboutManifestoStatement =
+  'Nous croyons en une architecture qui écoute le lieu, révèle la lumière et transforme chaque contrainte en une réponse simple, juste et durable.';
 
 const processItems = [
   {
@@ -168,11 +142,103 @@ const expertiseItems: Array<{
   },
 ];
 
+const teamSectionVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const teamCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 36,
+    scale: 0.97,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+    },
+  },
+};
+
+const teamImageVariants = {
+  hidden: {
+    opacity: 0,
+    y: 22,
+    scale: 1.04,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 1,
+    },
+  },
+};
+
+const realisationsSectionVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.06,
+    },
+  },
+};
+
+const realisationCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 34,
+    scale: 0.985,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.78,
+    },
+  },
+};
+
+const realisationImageVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    scale: 1.045,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.96,
+    },
+  },
+};
+
+type GalleryImage = {
+  src: string;
+  alt: string;
+  label: string;
+};
+
 type ProjectItem = {
   title: string;
   description: string;
+  detailDescription: string;
   image: string;
   alt: string;
+  gallery: GalleryImage[];
   tags: Array<{
     label: string;
     value: string;
@@ -191,10 +257,35 @@ const projectItems: ProjectItem[] = [
     title: 'Résidence W - Villa type 2A',
     description:
       'Une villa contemporaine pensée autour de la lumière, des volumes ouverts et d’une relation fluide avec le jardin.',
+    detailDescription:
+      'Pensée comme une villa largement ouverte sur le paysage, la typologie 2A organise des volumes sobres, des cadrages précis et une lumière traversante pour offrir une manière d’habiter fluide, élégante et durable.',
     image: projectImage(
       '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2B.jpeg',
     ),
     alt: 'Vue extérieure de la Villa type 2A de la Résidence W',
+    gallery: [
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2A.jpeg',
+        ),
+        alt: 'Perspective extérieure de la Villa type 2A avec volumes contemporains',
+        label: 'Façade principale',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2B.jpeg',
+        ),
+        alt: 'Vue de la Villa type 2A ouverte sur le jardin',
+        label: 'Relation au jardin',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2C.jpeg',
+        ),
+        alt: 'Détail architectural de la Villa type 2A avec terrasse et lumière naturelle',
+        label: 'Lumière & matière',
+      },
+    ],
     tags: [
       { label: 'Lieu', value: 'Marrakech' },
       { label: 'Année', value: '2026' },
@@ -205,10 +296,56 @@ const projectItems: ProjectItem[] = [
     title: 'Résidence W - Villa type 3',
     description:
       'Une composition résidentielle généreuse, entre intimité, façades minérales et espaces extérieurs protégés.',
+    detailDescription:
+      'La villa type 3 affirme une écriture résidentielle ample, équilibrant présence architecturale, intimité domestique et protection solaire pour composer des espaces généreux, ouverts et profondément ancrés dans leur climat.',
     image: projectImage(
       '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3A.jpeg',
     ),
     alt: 'Vue extérieure de la Villa type 3 de la Résidence W',
+    gallery: [
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3A.jpeg',
+        ),
+        alt: 'Vue principale de la Villa type 3',
+        label: 'Écriture de façade',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3B.jpeg',
+        ),
+        alt: 'Perspective résidentielle de la Villa type 3',
+        label: 'Séquence d’arrivée',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3C.jpeg',
+        ),
+        alt: 'Vue extérieure de la Villa type 3 et de ses espaces ouverts',
+        label: 'Volumes habitables',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3D.jpeg',
+        ),
+        alt: 'Détail des terrasses et de la matérialité de la Villa type 3',
+        label: 'Terrasses protégées',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3E.jpeg',
+        ),
+        alt: 'Perspective architecturale de la Villa type 3 ouverte sur l’extérieur',
+        label: 'Relation intérieur-extérieur',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3F.jpeg',
+        ),
+        alt: 'Dernière vue extérieure de la Villa type 3',
+        label: 'Présence dans le site',
+      },
+    ],
     tags: [
       { label: 'Lieu', value: 'Marrakech' },
       { label: 'Année', value: '2025' },
@@ -219,10 +356,49 @@ const projectItems: ProjectItem[] = [
     title: 'Résidence W - Villa type 1',
     description:
       'Une maison lumineuse et compacte, structurée par des lignes sobres, des percées visuelles et des espaces de vie traversants.',
+    detailDescription:
+      'Plus compacte dans son emprise, la villa type 1 développe une architecture nette et lumineuse où chaque ouverture, chaque retrait et chaque matière participent à une sensation d’espace calme et maîtrisé.',
     image: projectImage(
       '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1A.jpeg',
     ),
     alt: 'Vue extérieure de la Villa type 1 de la Résidence W',
+    gallery: [
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1A.jpeg',
+        ),
+        alt: 'Perspective extérieure de la Villa type 1',
+        label: 'Composition générale',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1B.jpeg',
+        ),
+        alt: 'Vue de la Villa type 1 et de ses ouvertures sur le jardin',
+        label: 'Ouvertures cadrées',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1C.jpeg',
+        ),
+        alt: 'Détail extérieur de la Villa type 1',
+        label: 'Lignes et profondeur',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/ChatGPT Image 27 juin 2026, 03_51_09.png',
+        ),
+        alt: 'Vue architecturale complémentaire de la Villa type 1',
+        label: 'Ambiance du projet',
+      },
+      {
+        src: projectImage(
+          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/ChatGPT Image 27 juin 2026, 03_51_19.png',
+        ),
+        alt: 'Visualisation complémentaire de la Villa type 1',
+        label: 'Vision résidentielle',
+      },
+    ],
     tags: [
       { label: 'Lieu', value: 'Marrakech' },
       { label: 'Année', value: '2025' },
@@ -233,8 +409,27 @@ const projectItems: ProjectItem[] = [
     title: 'Maison Tamesloht',
     description:
       'Une résidence ancrée dans son paysage, équilibrant matières locales, patios ombragés et vues dégagées.',
+    detailDescription:
+      'À Tamesloht, cette maison s’inscrit dans une relation directe avec le paysage, les matières minérales et la lumière du site pour construire une atmosphère sobre, chaleureuse et durable.',
     image: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco.jpeg'),
     alt: 'Maison contemporaine à Tamesloht, Marrakech',
+    gallery: [
+      {
+        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco.jpeg'),
+        alt: 'Vue principale de la maison à Tamesloht',
+        label: 'Implantation dans le paysage',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco0.jpeg'),
+        alt: 'Perspective secondaire de la maison à Tamesloht',
+        label: 'Matières et lumière',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco_1.jpeg'),
+        alt: 'Vue complémentaire de la maison à Tamesloht',
+        label: 'Présence minérale',
+      },
+    ],
     tags: [
       { label: 'Lieu', value: 'Tamesloht' },
       { label: 'Année', value: '2026' },
@@ -255,30 +450,6 @@ const realisationStats = [
   { label: 'Projets réalisés', value: '+100' },
   { label: 'Typologies', value: 'Villas · Immeubles' },
   { label: 'Territoire', value: 'Maroc' },
-];
-
-const featuredProjectGallery = [
-  {
-    src: projectImage(
-      '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2A.jpeg',
-    ),
-    alt: 'Perspective extérieure de la Villa type 2A avec volumes contemporains',
-    label: 'Façade principale',
-  },
-  {
-    src: projectImage(
-      '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2B.jpeg',
-    ),
-    alt: 'Vue de la Villa type 2A ouverte sur le jardin',
-    label: 'Relation au jardin',
-  },
-  {
-    src: projectImage(
-      '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2C.jpeg',
-    ),
-    alt: 'Détail architectural de la Villa type 2A avec terrasse et lumière naturelle',
-    label: 'Lumière & matière',
-  },
 ];
 
 type FadeInProps = {
@@ -424,13 +595,22 @@ function AnimatedHeading({
 
 type TypewriterWordProps = {
   words: string[];
+  className?: string;
+  cursorClassName?: string;
+  startDelay?: number;
 };
 
-function TypewriterWord({ words }: TypewriterWordProps) {
+function TypewriterWord({
+  words,
+  className = 'font-medium text-white',
+  cursorClassName = 'bg-[#d6b074]/90',
+  startDelay = 0,
+}: TypewriterWordProps) {
   const [wordIndex, setWordIndex] = useState(0);
-  const [letterCount, setLetterCount] = useState(words[0]?.length ?? 0);
+  const [letterCount, setLetterCount] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [started, setStarted] = useState(startDelay === 0);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -443,7 +623,25 @@ function TypewriterWord({ words }: TypewriterWordProps) {
   }, []);
 
   useEffect(() => {
+    setStarted(startDelay === 0);
+    setWordIndex(0);
+    setLetterCount(0);
+    setDeleting(false);
+
+    if (reduceMotion || startDelay === 0) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => setStarted(true), startDelay);
+    return () => window.clearTimeout(timer);
+  }, [reduceMotion, startDelay, words]);
+
+  useEffect(() => {
     if (reduceMotion || words.length === 0) {
+      return;
+    }
+
+    if (!started) {
       return;
     }
 
@@ -468,15 +666,15 @@ function TypewriterWord({ words }: TypewriterWordProps) {
     }, delay);
 
     return () => window.clearTimeout(timer);
-  }, [deleting, letterCount, reduceMotion, wordIndex, words]);
+  }, [deleting, letterCount, reduceMotion, started, wordIndex, words]);
 
   const currentWord = words[reduceMotion ? 0 : wordIndex] ?? '';
   const visibleWord = reduceMotion ? currentWord : currentWord.slice(0, letterCount);
 
   return (
-    <span className="inline-flex max-w-full items-baseline text-white">
+    <span className={`inline-flex max-w-full items-baseline ${className}`}>
       <span className="break-words">{visibleWord}</span>
-      <span className="ml-2 inline-block h-[0.82em] w-px translate-y-[0.06em] bg-white/70" aria-hidden="true" />
+      <span className={`ml-2 inline-block h-[0.82em] w-px translate-y-[0.06em] ${cursorClassName}`} aria-hidden="true" />
     </span>
   );
 }
@@ -631,9 +829,13 @@ function Footer() {
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-gray-500">Coordonnées</p>
             <div className="mt-3 grid gap-2 text-sm font-light text-gray-300">
-              <a className="transition-colors hover:text-white" href={`mailto:${contactEmail}`}>
-                {contactEmail}
+              <a className="transition-colors hover:text-white" href="mailto:contact@2aaz.ma">
+                contact@2aaz.ma
               </a>
+              <a className="transition-colors hover:text-white" href="tel:+212661884341">
+                06 61 88 43 41
+              </a>
+              <p>Résidence Clarisse, Rue Mohamed El Bekal 115, Marrakech 40000</p>
               <p>Marrakech, Maroc</p>
               <button
                 className="mt-3 inline-flex w-fit items-center gap-2 text-xs font-light uppercase tracking-[0.18em] text-white transition-opacity duration-300 hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
@@ -668,6 +870,7 @@ function Footer() {
 }
 
 function App() {
+  const shouldReduceMotion = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroScrollTriggerRef = useRef<ScrollTrigger | null>(null);
@@ -676,6 +879,8 @@ function App() {
   const heroVideoEndHandlerRef = useRef<((event: Event) => void) | null>(null);
   const founderRef = useRef<HTMLElement>(null);
   const founderWordRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const aboutManifestoRef = useRef<HTMLElement>(null);
+  const aboutManifestoWordRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const projectsRef = useRef<HTMLElement>(null);
   const projectCardRefs = useRef<Array<HTMLElement | null>>([]);
   const [openExpertise, setOpenExpertise] = useState<number | null>(null);
@@ -688,17 +893,20 @@ function App() {
     return nextPath || '/';
   };
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
-  const [selectedGalleryImage, setSelectedGalleryImage] = useState<(typeof featuredProjectGallery)[number] | null>(null);
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState<GalleryImage | null>(null);
   const currentProject = projectItems.find((project) => projectPath(project) === path);
-  const isFeaturedProjectDetail = currentProject?.title === 'Résidence W - Villa type 2A';
+  const currentProjectGallery = currentProject?.gallery ?? [];
   const selectedGalleryIndex = selectedGalleryImage
-    ? featuredProjectGallery.findIndex((galleryImage) => galleryImage.src === selectedGalleryImage.src)
+    ? currentProjectGallery.findIndex((galleryImage) => galleryImage.src === selectedGalleryImage.src)
     : -1;
   const suggestedProjects = currentProject
     ? projectItems.filter((project) => project.title !== currentProject.title).slice(0, 2)
     : [];
   const activeExpertiseIndex = openExpertise ?? 0;
   const activeExpertise = expertiseItems[activeExpertiseIndex] ?? expertiseItems[0];
+  const galleryPrimaryImage = currentProjectGallery[0] ?? null;
+  const gallerySecondaryImages = currentProjectGallery.slice(1, 3);
+  const galleryRemainingImages = currentProjectGallery.slice(3);
   const supportsFineHover = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const openExpertiseOnHover = (index: number) => {
     if (supportsFineHover()) {
@@ -714,13 +922,13 @@ function App() {
   };
   const showGalleryImage = (direction: 1 | -1) => {
     setSelectedGalleryImage((image) => {
-      if (!image) {
+      if (!image || currentProjectGallery.length === 0) {
         return image;
       }
 
-      const currentIndex = featuredProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
-      const nextIndex = (currentIndex + direction + featuredProjectGallery.length) % featuredProjectGallery.length;
-      return featuredProjectGallery[nextIndex];
+      const currentIndex = currentProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
+      const nextIndex = (currentIndex + direction + currentProjectGallery.length) % currentProjectGallery.length;
+      return currentProjectGallery[nextIndex];
     });
   };
   const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -811,7 +1019,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (!selectedGalleryImage) {
+    if (!selectedGalleryImage || currentProjectGallery.length === 0) {
       return;
     }
 
@@ -826,9 +1034,9 @@ function App() {
             return image;
           }
 
-          const currentIndex = featuredProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
-          const nextIndex = (currentIndex + 1) % featuredProjectGallery.length;
-          return featuredProjectGallery[nextIndex];
+          const currentIndex = currentProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
+          const nextIndex = (currentIndex + 1) % currentProjectGallery.length;
+          return currentProjectGallery[nextIndex];
         });
       }
 
@@ -838,16 +1046,16 @@ function App() {
             return image;
           }
 
-          const currentIndex = featuredProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
-          const nextIndex = (currentIndex - 1 + featuredProjectGallery.length) % featuredProjectGallery.length;
-          return featuredProjectGallery[nextIndex];
+          const currentIndex = currentProjectGallery.findIndex((galleryImage) => galleryImage.src === image.src);
+          const nextIndex = (currentIndex - 1 + currentProjectGallery.length) % currentProjectGallery.length;
+          return currentProjectGallery[nextIndex];
         });
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedGalleryImage]);
+  }, [currentProjectGallery, selectedGalleryImage]);
 
   useEffect(() => {
     const navigateTo = (nextPath: string) => {
@@ -915,6 +1123,40 @@ function App() {
 
     ScrollTrigger.clearScrollMemory('manual');
     window.scrollTo(0, 0);
+
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+
+    if (isMobileViewport) {
+      video.pause();
+      video.currentTime = 0;
+      heroVideoPlaybackRef.current = true;
+
+      const playVideo = async () => {
+        try {
+          await video.play();
+        } catch {
+          heroVideoPlaybackRef.current = false;
+        }
+      };
+
+      if (video.readyState >= 1) {
+        void playVideo();
+      } else {
+        video.addEventListener(
+          'loadedmetadata',
+          () => {
+            void playVideo();
+          },
+          { once: true },
+        );
+        video.load();
+      }
+
+      return () => {
+        video.pause();
+        heroVideoPlaybackRef.current = false;
+      };
+    }
 
     let heroTrigger: ScrollTrigger | undefined;
     let rafId: number | undefined;
@@ -1062,6 +1304,48 @@ function App() {
   }, [path]);
 
   useLayoutEffect(() => {
+    if (path !== '/a-propos') {
+      return;
+    }
+
+    const section = aboutManifestoRef.current;
+    const words = aboutManifestoWordRefs.current.filter((word): word is HTMLSpanElement => Boolean(word));
+
+    if (!section || words.length === 0) {
+      return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(words, { color: '#111111' });
+      return;
+    }
+
+    const context = gsap.context(() => {
+      gsap.set(words, { color: '#beb5a9' });
+
+      gsap.to(words, {
+        color: '#111111',
+        duration: 0.28,
+        ease: 'none',
+        stagger: 0.07,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          end: 'bottom 40%',
+          scrub: true,
+          invalidateOnRefresh: true,
+          refreshPriority: 4,
+        },
+      });
+
+      ScrollTrigger.sort();
+      ScrollTrigger.refresh();
+    }, section);
+
+    return () => context.revert();
+  }, [path]);
+
+  useLayoutEffect(() => {
     if (path !== '/') {
       ScrollTrigger.getById('home-projects-stack')?.kill(true);
       ScrollTrigger.refresh();
@@ -1165,7 +1449,7 @@ function App() {
         </div>
         <button
           aria-label="Faire défiler vers la suite"
-          className="liquid-glass absolute bottom-8 left-1/2 z-20 inline-flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full text-white outline-none transition-[background-color,transform] duration-300 hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/70 motion-safe:animate-bounce md:bottom-10"
+          className="liquid-glass absolute bottom-8 left-1/2 z-20 hidden h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full text-white outline-none transition-[background-color,transform] duration-300 hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/70 motion-safe:animate-bounce md:bottom-10 md:inline-flex"
           onClick={handleHeroScrollCueClick}
           type="button"
         >
@@ -1278,7 +1562,11 @@ function App() {
                   }`}
                   key={title}
                   onClick={() => toggleExpertiseOnTap(index)}
-                  onFocus={() => setOpenExpertise(index)}
+                  onFocus={() => {
+                    if (supportsFineHover()) {
+                      setOpenExpertise(index);
+                    }
+                  }}
                   onPointerEnter={() => openExpertiseOnHover(index)}
                   type="button"
                 >
@@ -1460,14 +1748,32 @@ function App() {
             <div className="relative flex w-full flex-col justify-start gap-10 md:justify-between md:gap-8">
               <div>
                 <p className="text-sm uppercase tracking-[0.22em] text-gray-500">À propos de 2AAZ</p>
-                <h1 className="mt-7 max-w-[62rem] text-[clamp(2.85rem,8.2vw,8.4rem)] font-light leading-[0.94] tracking-tight text-white md:mt-8">
-                  <span className="block">Nous concevons</span>
-                  <span className="block">des espaces</span>
-                  <span className="block text-gray-500">portés par</span>
-                  <span className="block min-h-[0.96em] pt-1">
-                    <TypewriterWord words={aboutTypewriterWords} />
-                  </span>
-                </h1>
+                <div className="mt-7 max-w-[62rem] md:mt-8">
+                  <AnimatedHeading
+                    charDelay={22}
+                    className="text-[clamp(2.85rem,8.2vw,8.4rem)] font-light leading-[0.94] tracking-tight text-white"
+                    initialDelay={180}
+                    lineClassName="whitespace-normal"
+                    text={'Nous concevons\ndes espaces'}
+                    wrapWords
+                  />
+                  <AnimatedHeading
+                    charDelay={22}
+                    className="text-[clamp(2.85rem,8.2vw,8.4rem)] font-light leading-[0.94] tracking-tight text-gray-500"
+                    initialDelay={420}
+                    lineClassName="whitespace-normal"
+                    text={'portés par'}
+                    wrapWords
+                  />
+                  <h1 className="min-h-[0.96em] pt-1 text-[clamp(2.85rem,8.2vw,8.4rem)] font-light leading-[0.94] tracking-tight">
+                    <TypewriterWord
+                      className="font-semibold tracking-tight text-white"
+                      cursorClassName="bg-[#d6b074]"
+                      startDelay={1320}
+                      words={aboutTypewriterWords}
+                    />
+                  </h1>
+                </div>
               </div>
 
               <div className="grid gap-6 border-t border-white/10 pt-7 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)] lg:items-start">
@@ -1570,53 +1876,47 @@ function App() {
             </div>
           </section>
 
-          <section className="relative overflow-hidden bg-[#0d0b08] px-6 py-24 md:px-12 lg:px-16 lg:py-32">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.035),transparent_34%),radial-gradient(circle_at_78%_20%,rgba(180,132,74,0.14),transparent_32%)]" aria-hidden="true" />
+          <section
+            ref={aboutManifestoRef}
+            className="relative overflow-hidden bg-[#f3f1ec] px-6 py-20 text-[#111111] md:px-12 md:py-24 lg:px-16 lg:py-32"
+          >
+            <div
+              className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.85),transparent_34%),linear-gradient(180deg,#f6f2eb_0%,#ece5db_100%)]"
+              aria-hidden="true"
+            />
 
-        <div className="relative grid gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:items-end lg:gap-14">
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-gray-500">À propos</p>
-            <h2 className="mt-6 max-w-4xl text-4xl font-light leading-tight text-white md:text-6xl lg:text-7xl">
-              Une architecture ancrée dans le lieu, pensée pour durer.
-            </h2>
-            <p className="mt-7 max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-lg">
-              2AAZ conçoit des espaces résidentiels et professionnels qui relient la précision technique à une
-              expérience sensible du quotidien. Chaque projet cherche le juste équilibre entre lumière, matière,
-              usages et climat.
-            </p>
+            <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:items-start lg:gap-14">
+              <div className="lg:pt-3">
+                <p className="text-sm uppercase tracking-[0.2em] text-[#807972]">Philosophie</p>
+                <h2 className="sr-only">Philosophie de 2AAZ</h2>
 
-            <div className="mt-10 grid gap-3 sm:grid-cols-3 lg:max-w-xl lg:grid-cols-1">
-              {aboutPrinciples.map(({ title, description, Icon }) => (
-                <article className="liquid-glass rounded-xl px-4 py-4" key={title}>
-                  <Icon aria-hidden="true" className="h-5 w-5 text-white/80" strokeWidth={1.6} />
-                  <h3 className="mt-5 text-lg font-light tracking-tight text-white">{title}</h3>
-                  <p className="mt-3 text-sm font-light leading-relaxed text-gray-400">{description}</p>
-                </article>
-              ))}
+                <p className="mt-7 max-w-5xl text-[clamp(1.9rem,3.9vw,4.35rem)] font-light leading-[1.1] tracking-tight text-[#beb5a9]">
+                  {aboutManifestoStatement.split(' ').map((word, index) => (
+                    <span
+                      className="mr-[0.18em] inline-block"
+                      key={`${word}-${index}`}
+                      ref={(node) => {
+                        aboutManifestoWordRefs.current[index] = node;
+                      }}
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </p>
+              </div>
+
+              <aside className="grid gap-6 border-t border-black/10 pt-6 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-1">
+                <p className="text-base font-light leading-relaxed text-[#5f5851] md:text-lg">
+                  Notre mission est de faire dialoguer contexte, lumière et usage pour créer des lieux qui traversent
+                  le temps sans perdre leur justesse.
+                </p>
+                <p className="max-w-sm text-sm font-light leading-relaxed text-[#7a736c] md:text-base">
+                  Chaque projet s’écrit avec sobriété, précision et attention au climat marocain, aux rythmes de vie
+                  et à la qualité des matières.
+                </p>
+              </aside>
             </div>
-          </div>
-
-          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-2xl shadow-black/50">
-            <div className="relative aspect-[4/5] min-h-[28rem] md:aspect-[16/10] lg:aspect-[4/5] lg:min-h-[42rem]">
-              <img
-                alt="Villa contemporaine 2AAZ au coucher du soleil"
-                className="absolute inset-0 h-full w-full object-cover"
-                decoding="async"
-                loading="lazy"
-                src={aboutVisualSrc}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-black/20" aria-hidden="true" />
-              <figcaption className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                <div className="liquid-glass inline-flex rounded-xl px-4 py-3">
-                  <p className="text-sm font-light leading-relaxed text-gray-200">
-                    Une lecture précise du site, du programme et du temps long.
-                  </p>
-                </div>
-              </figcaption>
-            </div>
-          </figure>
-        </div>
-      </section>
+          </section>
 
           <section className="relative overflow-hidden bg-[#070706] px-6 py-20 md:px-12 lg:px-16 lg:py-28">
             <div className="absolute inset-x-0 top-0 h-px bg-white/10" aria-hidden="true" />
@@ -1638,19 +1938,30 @@ function App() {
                 </p>
               </div>
 
-              <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <motion.div
+                className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4"
+                initial={shouldReduceMotion ? false : 'hidden'}
+                variants={teamSectionVariants}
+                viewport={{ once: true, amount: 0.18 }}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+              >
                 {teamMembers.map((member, index) => (
-                  <article
+                  <motion.article
                     className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-2 transition-[background-color,border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.06]"
                     key={member.name}
+                    variants={shouldReduceMotion ? undefined : teamCardVariants}
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#171410]">
-                      <img
+                    <motion.div
+                      className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#171410]"
+                      variants={shouldReduceMotion ? undefined : teamImageVariants}
+                    >
+                      <motion.img
                         alt={member.alt}
                         className="absolute inset-0 h-full w-full object-cover grayscale saturate-0 contrast-110 transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.045] group-hover:grayscale-0 group-hover:saturate-100"
                         decoding="async"
                         loading="lazy"
                         src={member.image}
+                        transition={{ duration: 0.9 }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/86 via-black/18 to-black/5 transition-opacity duration-500 group-hover:opacity-85" aria-hidden="true" />
                       <div
@@ -1666,7 +1977,7 @@ function App() {
                           {member.note}
                         </p>
                       </div>
-                    </div>
+                    </motion.div>
 
                     <div className="flex min-h-[7.25rem] flex-col justify-between px-2 pb-3 pt-5">
                       <div>
@@ -1675,9 +1986,9 @@ function App() {
                       </div>
                       <div className="mt-5 h-px w-full bg-white/10 transition-colors duration-500 group-hover:bg-white/25" />
                     </div>
-                  </article>
+                  </motion.article>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </section>
 
@@ -1722,20 +2033,28 @@ function App() {
                 </p>
               </div>
 
-              <div className="grid gap-3 md:grid-cols-[1.3fr_0.85fr_0.85fr]">
+              <motion.div
+                className="grid gap-3 md:grid-cols-[1.3fr_0.85fr_0.85fr]"
+                initial={shouldReduceMotion ? false : 'hidden'}
+                variants={shouldReduceMotion ? undefined : realisationsSectionVariants}
+                viewport={{ once: true, amount: 0.16 }}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+              >
                 {projectItems.slice(0, 3).map((project, index) => (
-                  <a
+                  <motion.a
                     aria-label={`Découvrir ${project.title}`}
                     className="group relative min-h-[18rem] overflow-hidden rounded-2xl border border-white/10 bg-black/30 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/25 focus-visible:ring-2 focus-visible:ring-white/80 md:min-h-[24rem] lg:min-h-[28rem]"
                     href={projectPath(project)}
                     key={project.title}
+                    variants={shouldReduceMotion ? undefined : realisationCardVariants}
                   >
-                    <img
+                    <motion.img
                       alt={project.alt}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                       decoding="async"
                       loading={index === 0 ? 'eager' : 'lazy'}
                       src={project.image}
+                      variants={shouldReduceMotion ? undefined : realisationImageVariants}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/22 to-black/5" aria-hidden="true" />
                     <div
@@ -1755,9 +2074,9 @@ function App() {
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </section>
 
@@ -1780,20 +2099,28 @@ function App() {
                 </p>
               </div>
 
-              <div className="grid gap-5 lg:gap-7">
+              <motion.div
+                className="grid gap-5 lg:gap-7"
+                initial={shouldReduceMotion ? false : 'hidden'}
+                variants={shouldReduceMotion ? undefined : realisationsSectionVariants}
+                viewport={{ once: true, amount: 0.12 }}
+                whileInView={shouldReduceMotion ? undefined : 'visible'}
+              >
                 {projectItems.map((project, index) => (
-                  <a
+                  <motion.a
                     aria-label={`Voir le projet ${project.title}`}
                     className="group relative block h-[68vh] min-h-[28rem] overflow-hidden rounded-2xl border border-white/10 bg-[#11100d] shadow-2xl shadow-black/50 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/25 focus-visible:ring-2 focus-visible:ring-white/80 md:h-[72vh] md:min-h-[34rem]"
                     href={projectPath(project)}
                     key={project.title}
+                    variants={shouldReduceMotion ? undefined : realisationCardVariants}
                   >
-                    <img
+                    <motion.img
                       alt={project.alt}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045]"
                       decoding="async"
                       loading={index === 0 ? 'eager' : 'lazy'}
                       src={project.image}
+                      variants={shouldReduceMotion ? undefined : realisationImageVariants}
                     />
                     <div
                       className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/5 opacity-100 transition-opacity duration-500 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100 md:group-focus-visible:opacity-100"
@@ -1835,9 +2162,9 @@ function App() {
                         </dl>
                       </div>
                     </div>
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </section>
         </>
@@ -1846,76 +2173,74 @@ function App() {
       {currentProject && (
         <>
           <SiteHeader />
-          {isFeaturedProjectDetail && (
-            <section className="relative overflow-hidden bg-[#070706] px-6 py-8 md:px-12 lg:px-16 lg:py-10">
-              <div className="border-t border-white/10 pt-8 md:pt-10">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500 md:text-sm">Projet détail</p>
-                  <AnimatedHeading
-                    charDelay={22}
-                    className="mt-5 max-w-6xl text-[clamp(3.1rem,7.2vw,7.6rem)] font-light leading-[0.96] text-white md:mt-7"
-                    initialDelay={160}
-                    lineClassName="whitespace-normal"
-                    text={currentProject.title}
-                    wrapWords
+          <section className="relative overflow-hidden bg-[#070706] px-6 py-8 md:px-12 lg:px-16 lg:py-10">
+            <div className="border-t border-white/10 pt-8 md:pt-10">
+              <div>
+                <p className="text-xs uppercase tracking-[0.28em] text-gray-500 md:text-sm">Projet détail</p>
+                <AnimatedHeading
+                  charDelay={22}
+                  className="mt-5 max-w-6xl text-[clamp(3.1rem,7.2vw,7.6rem)] font-light leading-[0.96] text-white md:mt-7"
+                  initialDelay={160}
+                  lineClassName="whitespace-normal"
+                  text={currentProject.title}
+                  wrapWords
+                />
+              </div>
+
+              <figure className="group relative mt-10 overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/50 md:mt-12">
+                <div className="relative h-[68dvh] min-h-[28rem] md:h-[76dvh] lg:h-[80dvh]">
+                  <img
+                    alt={currentProject.alt}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.025]"
+                    decoding="async"
+                    src={currentProject.image}
                   />
                 </div>
+              </figure>
 
-                <figure className="group relative mt-10 overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/50 md:mt-12">
-                  <div className="relative h-[68dvh] min-h-[28rem] md:h-[76dvh] lg:h-[80dvh]">
-                    <img
-                      alt={currentProject.alt}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.025]"
-                      decoding="async"
-                      src={currentProject.image}
-                    />
-                  </div>
-                </figure>
+              <div className="mt-8 grid gap-8 border-b border-white/10 pb-8 md:mt-10 md:pb-10 lg:grid-cols-[minmax(0,1fr)_minmax(28rem,0.62fr)] lg:items-start lg:gap-14">
+                <p className="max-w-3xl text-xl font-light leading-relaxed text-gray-200 md:text-2xl lg:text-3xl">
+                  {currentProject.detailDescription}
+                </p>
 
-                <div className="mt-8 grid gap-8 border-b border-white/10 pb-8 md:mt-10 md:pb-10 lg:grid-cols-[minmax(0,1fr)_minmax(28rem,0.62fr)] lg:items-start lg:gap-14">
-                  <p className="max-w-3xl text-xl font-light leading-relaxed text-gray-200 md:text-2xl lg:text-3xl">
-                    {currentProject.description}
-                  </p>
-
-                  <dl className="grid w-full gap-5 sm:grid-cols-3 lg:justify-self-end">
-                    {currentProject.tags.map((tag) => (
-                      <div className="min-w-0" key={tag.label}>
-                        <dt className="text-xs font-light uppercase tracking-[0.18em] text-gray-500">{tag.label}</dt>
-                        <dd className="mt-2 break-words text-sm font-light leading-snug text-white md:text-base">
-                          {tag.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
+                <dl className="grid w-full gap-5 sm:grid-cols-3 lg:justify-self-end">
+                  {currentProject.tags.map((tag) => (
+                    <div className="min-w-0" key={tag.label}>
+                      <dt className="text-xs font-light uppercase tracking-[0.18em] text-gray-500">{tag.label}</dt>
+                      <dd className="mt-2 break-words text-sm font-light leading-snug text-white md:text-base">
+                        {tag.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
-            </section>
-          )}
+            </div>
+          </section>
 
-          {isFeaturedProjectDetail && (
+          {galleryPrimaryImage && (
             <section className="relative overflow-hidden bg-[#070706] px-6 pb-16 md:px-12 md:pb-20 lg:px-16 lg:pb-28">
               <div className="border-b border-white/10 pb-10">
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)] lg:gap-5">
                   <button
-                    aria-label={`Agrandir ${featuredProjectGallery[0].label}`}
+                    aria-label={`Agrandir ${galleryPrimaryImage.label}`}
                     className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-black text-left shadow-2xl shadow-black/40 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/30 focus-visible:ring-2 focus-visible:ring-white/70 md:aspect-auto md:min-h-[36rem] lg:min-h-[48rem]"
-                    onClick={() => setSelectedGalleryImage(featuredProjectGallery[0])}
+                    onClick={() => setSelectedGalleryImage(galleryPrimaryImage)}
                     type="button"
                   >
                     <img
-                      alt={featuredProjectGallery[0].alt}
+                      alt={galleryPrimaryImage.alt}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.035]"
                       decoding="async"
-                      src={featuredProjectGallery[0].src}
+                      src={galleryPrimaryImage.src}
                     />
                     <span className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" aria-hidden="true" />
                     <span className="absolute bottom-5 left-5 text-sm font-light text-white md:bottom-7 md:left-7">
-                      {featuredProjectGallery[0].label}
+                      {galleryPrimaryImage.label}
                     </span>
                   </button>
 
                   <div className="grid gap-4 lg:gap-5">
-                    {featuredProjectGallery.slice(1).map((image) => (
+                    {gallerySecondaryImages.map((image) => (
                       <button
                         aria-label={`Agrandir ${image.label}`}
                         className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-black text-left shadow-2xl shadow-black/30 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/30 focus-visible:ring-2 focus-visible:ring-white/70 md:aspect-auto md:min-h-[24rem]"
@@ -1937,122 +2262,104 @@ function App() {
                     ))}
                   </div>
                 </div>
-              </div>
-            </section>
-          )}
 
-          {isFeaturedProjectDetail && (
-            <section className="relative overflow-hidden bg-[#070706] px-6 pb-16 md:px-12 md:pb-20 lg:px-16 lg:pb-28">
-              <div className="border-b border-white/10 pb-10">
-                <div className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <h2 className="max-w-4xl text-4xl font-light leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                      Autres projets réalisés.
-                    </h2>
-                  </div>
-
-                  <a
-                    className="inline-flex min-h-12 w-fit items-center gap-3 rounded-lg bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                    href="/realisations"
-                  >
-                    Voir toutes les réalisations
-                    <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
-                  </a>
-                </div>
-
-                <div className="grid gap-5 lg:grid-cols-2">
-                  {suggestedProjects.map((project) => (
-                    <a
-                      className="group relative block overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/35 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/30 focus-visible:ring-2 focus-visible:ring-white/70"
-                      href={projectPath(project)}
-                      key={project.title}
-                    >
-                      <div className="relative aspect-[16/11] min-h-[20rem] md:min-h-[28rem]">
+                {galleryRemainingImages.length > 0 && (
+                  <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+                    {galleryRemainingImages.map((image) => (
+                      <button
+                        aria-label={`Agrandir ${image.label}`}
+                        className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-black text-left shadow-2xl shadow-black/30 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/30 focus-visible:ring-2 focus-visible:ring-white/70"
+                        key={image.src}
+                        onClick={() => setSelectedGalleryImage(image)}
+                        type="button"
+                      >
                         <img
-                          alt={project.alt}
+                          alt={image.alt}
                           className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
                           decoding="async"
-                          loading="lazy"
-                          src={project.image}
+                          src={image.src}
                         />
-                        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/78 to-transparent" aria-hidden="true" />
+                        <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 to-transparent" aria-hidden="true" />
+                        <span className="absolute bottom-5 left-5 text-sm font-light text-white md:bottom-6 md:left-6">
+                          {image.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
 
-                        <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
-                          <div className="flex flex-wrap gap-2">
-                            {project.tags.slice(0, 2).map((tag) => (
-                              <span
-                                className="text-[0.65rem] uppercase tracking-[0.16em] text-gray-300"
-                                key={`${project.title}-${tag.label}`}
-                              >
-                                {tag.value}
-                              </span>
-                            ))}
-                          </div>
+          <section className="relative overflow-hidden bg-[#070706] px-6 pb-16 md:px-12 md:pb-20 lg:px-16 lg:pb-28">
+            <div className="border-b border-white/10 pb-10">
+              <div className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <h2 className="max-w-4xl text-4xl font-light leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+                    Explorer d&apos;autres réalisations.
+                  </h2>
+                </div>
 
-                          <div className="mt-4 flex items-end justify-between gap-5">
-                            <div>
-                              <h3 className="text-2xl font-light leading-tight text-white md:text-3xl">
-                                {project.title}
-                              </h3>
-                              <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-gray-300 opacity-90 transition-opacity duration-500 group-hover:opacity-100 md:text-base">
-                                {project.description}
-                              </p>
-                            </div>
-                            <ArrowUpRight
-                              aria-hidden="true"
-                              className="hidden h-6 w-6 shrink-0 text-white transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 md:block"
-                              strokeWidth={1.6}
-                            />
+                <a
+                  className="inline-flex min-h-12 w-fit items-center gap-3 rounded-lg bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                  href="/realisations"
+                >
+                  Voir toutes les réalisations
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
+                </a>
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-2">
+                {suggestedProjects.map((project) => (
+                  <a
+                    className="group relative block overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/35 outline-none transition-[border-color,transform] duration-500 hover:-translate-y-1 hover:border-white/30 focus-visible:ring-2 focus-visible:ring-white/70"
+                    href={projectPath(project)}
+                    key={project.title}
+                  >
+                    <div className="relative aspect-[16/11] min-h-[20rem] md:min-h-[28rem]">
+                      <img
+                        alt={project.alt}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+                        decoding="async"
+                        loading="lazy"
+                        src={project.image}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/78 to-transparent" aria-hidden="true" />
+
+                      <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.slice(0, 2).map((tag) => (
+                            <span
+                              className="text-[0.65rem] uppercase tracking-[0.16em] text-gray-300"
+                              key={`${project.title}-${tag.label}`}
+                            >
+                              {tag.value}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 flex items-end justify-between gap-5">
+                          <div>
+                            <h3 className="text-2xl font-light leading-tight text-white md:text-3xl">
+                              {project.title}
+                            </h3>
+                            <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-gray-300 opacity-90 transition-opacity duration-500 group-hover:opacity-100 md:text-base">
+                              {project.description}
+                            </p>
                           </div>
+                          <ArrowUpRight
+                            aria-hidden="true"
+                            className="hidden h-6 w-6 shrink-0 text-white transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 md:block"
+                            strokeWidth={1.6}
+                          />
                         </div>
                       </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {!isFeaturedProjectDetail && (
-            <section className="relative overflow-hidden bg-[#070706] px-6 py-16 md:px-12 lg:px-16 lg:py-24">
-              <div className="relative grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end lg:gap-14">
-                <div>
-                  <a className="text-sm uppercase tracking-[0.2em] text-gray-500 transition-colors hover:text-white" href="/realisations">
-                    Réalisations
+                    </div>
                   </a>
-                  <h1 className="mt-6 max-w-4xl text-4xl font-light leading-tight text-white md:text-6xl lg:text-7xl">
-                    {currentProject.title}
-                  </h1>
-                  <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-lg">
-                    {currentProject.description}
-                  </p>
-
-                  <dl className="mt-8 grid grid-cols-3 gap-2 md:max-w-2xl">
-                    {currentProject.tags.map((tag) => (
-                      <div className="liquid-glass min-w-0 rounded-lg px-3 py-2 md:px-4 md:py-3" key={tag.label}>
-                        <dt className="text-[0.6rem] font-medium uppercase tracking-[0.16em] text-gray-400 md:text-[0.68rem] md:tracking-[0.18em]">
-                          {tag.label}
-                        </dt>
-                        <dd className="mt-1 break-words text-xs font-light text-white md:text-base">{tag.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-
-                <figure className="overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-2xl shadow-black/50">
-                  <div className="relative aspect-[4/5] min-h-[28rem] md:aspect-[16/10] lg:aspect-[4/5] lg:min-h-[42rem]">
-                    <img
-                      alt={currentProject.alt}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      decoding="async"
-                      src={currentProject.image}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/10" aria-hidden="true" />
-                  </div>
-                </figure>
+                ))}
               </div>
-            </section>
-          )}
+            </div>
+          </section>
 
           {selectedGalleryImage && (
             <div
@@ -2110,7 +2417,7 @@ function App() {
                 <figcaption className="mt-4 flex items-center justify-between gap-4 text-sm font-light text-gray-300 md:text-base">
                   <span>{selectedGalleryImage.label}</span>
                   <span className="text-xs uppercase tracking-[0.18em] text-gray-500">
-                    {selectedGalleryIndex + 1} / {featuredProjectGallery.length}
+                    {selectedGalleryIndex + 1} / {currentProjectGallery.length}
                   </span>
                 </figcaption>
               </figure>
@@ -2121,35 +2428,39 @@ function App() {
 
       {path === '/contact' && (
         <>
-          <SiteHeader />
-          <section className="relative overflow-hidden bg-[#0d0b08] px-6 py-14 md:px-12 md:py-20 lg:px-16 lg:py-24">
-            <div className="absolute inset-x-0 top-0 h-px bg-white/10" aria-hidden="true" />
-            <div
-              className="absolute inset-0 bg-[radial-gradient(circle_at_80%_12%,rgba(180,132,74,0.12),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.035),transparent_35%)]"
-              aria-hidden="true"
-            />
+          <div className="relative bg-[#0d0b08]">
+            <section className="sticky top-0 z-0 overflow-hidden bg-[#0d0b08] md:min-h-[100dvh]">
+              <SiteHeader />
+              <div className="absolute inset-x-0 top-0 h-px bg-white/10" aria-hidden="true" />
+              <div
+                className="absolute inset-0 bg-[radial-gradient(circle_at_80%_12%,rgba(180,132,74,0.12),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.035),transparent_35%)]"
+                aria-hidden="true"
+              />
 
-            <div className="relative">
-              <div className="grid gap-8 border-b border-white/10 pb-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-end lg:gap-16">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-gray-500 md:text-sm">Contact</p>
-                  <AnimatedHeading
-                    charDelay={22}
-                    className="mt-7 max-w-[86rem] text-[clamp(3.2rem,8.4vw,8.8rem)] font-light leading-[1.02] text-white"
-                    initialDelay={180}
-                    lineClassName="whitespace-normal"
-                    text={'Parlons de\nvotre projet.'}
-                    wrapWords
-                  />
+              <div className="relative flex flex-col gap-8 px-6 py-10 md:min-h-[calc(100dvh-5rem)] md:justify-between md:gap-12 md:px-12 md:py-16 lg:px-16 lg:py-20">
+                <div className="grid w-full gap-8 pb-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-end lg:gap-16">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.28em] text-gray-500 md:text-sm">Contact</p>
+                    <AnimatedHeading
+                      charDelay={22}
+                      className="mt-7 max-w-[86rem] text-[clamp(3.2rem,8.4vw,8.8rem)] font-light leading-[1.02] text-white"
+                      initialDelay={180}
+                      lineClassName="whitespace-normal"
+                      text={'Parlons de\nvotre projet.'}
+                      wrapWords
+                    />
+                  </div>
+
+                  <p className="max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-xl lg:pb-2">
+                    Une villa, un terrain, un immeuble ou une intention à clarifier ? Partagez-nous les premières lignes
+                    de votre projet, nous vous répondons sous 24h pour cadrer les prochaines étapes.
+                  </p>
                 </div>
-
-                <p className="max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-xl lg:pb-2">
-                  Une villa, un terrain, un immeuble ou une intention à clarifier ? Partagez-nous les premières lignes
-                  de votre projet, nous vous répondons sous 24h pour cadrer les prochaines étapes.
-                </p>
               </div>
+            </section>
 
-              <div className="grid gap-10 pt-10 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-16">
+            <section className="relative z-10 -mt-4 overflow-hidden rounded-t-[2rem] bg-[#0b0a08] px-6 py-12 shadow-[0_-28px_80px_rgba(0,0,0,0.45)] md:-mt-[calc(26dvh+112px)] md:rounded-t-[2.5rem] md:px-12 md:py-16 lg:-mt-[calc(30dvh+121px)] lg:px-16 lg:py-20">
+              <div className="grid gap-10 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-16">
                 <aside className="space-y-8">
                   <div className="grid gap-4">
                     {[
@@ -2275,9 +2586,6 @@ function App() {
                       Envoyer ma demande
                       <Send aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
                     </button>
-                    <p className="max-w-sm text-sm font-light leading-relaxed text-gray-500">
-                      L’envoi ouvrira votre application mail avec un message déjà préparé.
-                    </p>
                   </div>
                 </form>
               </div>
@@ -2313,8 +2621,8 @@ function App() {
                   />
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </>
       )}
       </div>

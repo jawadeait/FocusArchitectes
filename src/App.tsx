@@ -23,15 +23,20 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const videoSrc =
-  '/Projects_Realisations/Project_3_Residence%20W%20-%206%20villas%20-%20Villa%20type%202A/Video-4.mp4';
-
 const projectImage = (path: string) => encodeURI(path);
 
-const founderImageSrc = projectImage('/Projects_Realisations/AJANA ZOUHEIR.jpeg');
+const heroImageSrc = projectImage('/Projects_Realisations/Focus_1.webp');
+const founderImageSrc = '/team/linkedin-sales-solutions-pAtA8xe_iVM-unsplash.jpg';
+const contactPhone = '06 61 30 15 57';
+const contactPhoneHref = 'tel:+212661301557';
+const contactAddress = '7ème étage, Angle rue Socrate et Rue Abou Taour, Casablanca 20999';
+const googleMapsHref =
+  'https://www.google.com/maps/place/Focus+Architectes/@33.5779779,-7.6471476,17z/data=!3m1!4b1!4m6!3m5!1s0xda7d36354c55e7d:0x7b2c724f91f4c54!8m2!3d33.5779779!4d-7.6445727!16s%2Fg%2F11r6rzm6_m?entry=ttu';
+const googleMapsEmbedSrc =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3324.052817690093!2d-7.64714762430374!3d33.577977873339236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d36354c55e7d%3A0x7b2c724f91f4c54!2sFocus%20Architectes!5e0!3m2!1sfr!2sma!4v1783439197390!5m2!1sfr!2sma';
 
 const whatsappHref =
-  'https://wa.me/212676990471?text=' +
+  'https://wa.me/212661301557?text=' +
   encodeURIComponent(
     "Bonjour, je vous contacte depuis votre site. J'aimerais échanger à propos de mon projet.",
   );
@@ -39,7 +44,7 @@ const whatsappHref =
 const contactEmail = 'jawade.aithammou@gmail.com';
 
 const founderStatement =
-  'Chez 2AAZ, nous imaginons des espaces qui racontent une histoire, révèlent la lumière et créent une connexion naturelle entre les personnes et leur environnement. Notre ambition est de concevoir une architecture sincère, durable et intemporelle.';
+  'Chez Focus Architectes, nous concevons des espaces clairs, lumineux et adaptés au climat marocain. Notre ambition est de transformer chaque idée en architecture lisible, durable et profondément habitée.';
 
 const aboutTypewriterWords = ['la lumière', 'la créativité', 'la précision', "l'inspiration", "l'innovation"];
 const aboutManifestoStatement =
@@ -70,32 +75,32 @@ const processItems = [
 
 const teamMembers = [
   {
-    name: 'AJANA ZOUHEIR',
-    role: 'Fondateur et architecte',
-    image: founderImageSrc,
-    alt: 'Portrait de AJANA ZOUHEIR, fondateur et architecte de 2AAZ',
-    note: 'Il guide la vision architecturale, de la première intention au détail construit.',
-  },
-  {
     name: 'TARIK FIKRI',
     role: 'Architecte',
     image: '/team/tarik-fikri.png',
-    alt: 'Portrait éditorial de TARIK FIKRI, architecte chez 2AAZ',
-    note: 'Il affine les volumes, les plans et la cohérence spatiale de chaque projet.',
+    alt: 'Portrait de Tarik Fikri, architecte chez Focus Architectes',
+    note: 'Il travaille les volumes, les plans et la cohérence spatiale de chaque projet.',
   },
   {
     name: 'KARIMA NASSIM',
-    role: 'Architecte',
+    role: 'Architecture',
     image: '/team/karima-nassim.png',
-    alt: 'Portrait éditorial de KARIMA NASSIM, architecte chez 2AAZ',
-    note: 'Elle travaille la lumière, les matières et l’équilibre sensible des espaces.',
+    alt: 'Portrait de Karima Nassim, architecte chez Focus Architectes',
+    note: 'Elle affine la lumière, les matières et l’équilibre sensible des espaces.',
   },
   {
     name: 'NISRINE KADIM',
     role: 'Cheffe de projet',
     image: '/team/nisrine-kadim.png',
-    alt: 'Portrait éditorial de NISRINE KADIM, cheffe de projet chez 2AAZ',
+    alt: 'Portrait de Nisrine Kadim, cheffe de projet chez Focus Architectes',
     note: 'Elle coordonne les échanges, les délais et la précision d’exécution.',
+  },
+  {
+    name: 'STUDIO FOCUS',
+    role: 'Conception & suivi',
+    image: projectImage('/Projects_Realisations/Focus_4.webp'),
+    alt: 'Atelier de conception de Focus Architectes',
+    note: 'L’équipe rassemble conception, coordination et suivi pour garder une vision claire.',
   },
 ];
 
@@ -111,16 +116,16 @@ const expertiseItems: Array<{
     title: 'Urbanisme',
     description: 'Lecture du foncier, des règlements et des contraintes locales pour sécuriser chaque décision.',
     Icon: MapPinned,
-    image: projectImage('/Projects_Realisations/Expertises/Urbanisme.png'),
-    alt: 'Visualisation d’urbanisme illustrant l’expertise urbanisme de 2AAZ',
+    image: projectImage('/Projects_Realisations/Focus_4.webp'),
+    alt: 'Atelier de conception illustrant l’approche urbaine de Focus Architectes',
     caption: 'Implanter juste, avant même de dessiner les volumes.',
   },
   {
     title: 'Architecture',
     description: 'Conception de villas, immeubles et lieux sur mesure, du concept aux plans d’exécution.',
     Icon: Building2,
-    image: projectImage('/Projects_Realisations/Expertises/Architecture1.jpeg'),
-    alt: 'Villa contemporaine illustrant l’expertise architecture de 2AAZ',
+    image: projectImage('/Projects_Realisations/Focus_1.webp'),
+    alt: 'Villa contemporaine illustrant l’expertise architecture de Focus Architectes',
     caption: 'Des proportions, des lignes et une matière au service du lieu.',
   },
   {
@@ -128,16 +133,16 @@ const expertiseItems: Array<{
     description:
       'Travail des volumes, matières, ambiances et usages pour prolonger l’architecture jusque dans le détail.',
     Icon: Armchair,
-    image: projectImage('/Projects_Realisations/Expertises/Architecture dinterieur.jpeg'),
-    alt: 'Ambiance intérieure illustrant l’expertise architecture d’intérieur de 2AAZ',
+    image: projectImage('/Projects_Realisations/Focus_2.webp'),
+    alt: 'Ambiance intérieure illustrant l’expertise architecture d’intérieur de Focus Architectes',
     caption: 'Ambiances, seuils et matières prolongent l’expérience de l’espace.',
   },
   {
     title: 'Suivi de chantier',
     description: 'Coordination des intervenants, contrôle des étapes et accompagnement jusqu’à la livraison.',
     Icon: HardHat,
-    image: projectImage('/Projects_Realisations/Expertises/Suivi de chantier.png'),
-    alt: 'Phase chantier illustrant le suivi de chantier par 2AAZ',
+    image: projectImage('/Projects_Realisations/Focus_3.webp'),
+    alt: 'Villa en phase de finition illustrant le suivi de chantier par Focus Architectes',
     caption: 'Préserver l’intention initiale jusque dans le détail construit.',
   },
 ];
@@ -254,186 +259,193 @@ const navItems = [
 
 const projectItems: ProjectItem[] = [
   {
-    title: 'Résidence W - Villa type 2A',
+    title: 'Villa Blanche',
     description:
-      'Une villa contemporaine pensée autour de la lumière, des volumes ouverts et d’une relation fluide avec le jardin.',
+      'Une villa contemporaine aux volumes blancs, pensée pour une façade nette et une présence urbaine sobre.',
     detailDescription:
-      'Pensée comme une villa largement ouverte sur le paysage, la typologie 2A organise des volumes sobres, des cadrages précis et une lumière traversante pour offrir une manière d’habiter fluide, élégante et durable.',
-    image: projectImage(
-      '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2B.jpeg',
-    ),
-    alt: 'Vue extérieure de la Villa type 2A de la Résidence W',
+      'Villa Blanche travaille une écriture claire : volumes superposés, garde-corps vitrés, menuiseries sombres et touches boisées pour équilibrer la façade. Le projet met l’accent sur la lisibilité, l’intimité depuis la rue et une relation contrôlée avec la lumière.',
+    image: projectImage('/Projects_Realisations/Focus_3.webp'),
+    alt: 'Façade contemporaine de la Villa Blanche par Focus Architectes',
     gallery: [
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2A.jpeg',
-        ),
-        alt: 'Perspective extérieure de la Villa type 2A avec volumes contemporains',
+        src: projectImage('/Projects_Realisations/Focus_3.webp'),
+        alt: 'Façade principale blanche avec panneaux bois et portail contemporain',
         label: 'Façade principale',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2B.jpeg',
-        ),
-        alt: 'Vue de la Villa type 2A ouverte sur le jardin',
-        label: 'Relation au jardin',
+        src: projectImage('/Projects_Realisations/Focus_7.webp'),
+        alt: 'Villa blanche livrée avec volumes sobres et portail noir',
+        label: 'Volume réalisé',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_3_Residence W - 6 villas - Villa type 2A/3_Residence W - 6 villas - Villa type 2C.jpeg',
-        ),
-        alt: 'Détail architectural de la Villa type 2A avec terrasse et lumière naturelle',
-        label: 'Lumière & matière',
+        src: projectImage('/Projects_Realisations/Focus_1.webp'),
+        alt: 'Perspective de villa blanche contemporaine avec brise-soleil',
+        label: 'Étude de façade',
       },
     ],
     tags: [
-      { label: 'Lieu', value: 'Marrakech' },
-      { label: 'Année', value: '2026' },
-      { label: 'Superficie', value: '420 m²' },
+      { label: 'Lieu', value: 'Maroc' },
+      { label: 'Typologie', value: 'Villa' },
+      { label: 'Mission', value: 'Architecture' },
     ],
   },
   {
-    title: 'Résidence W - Villa type 3',
+    title: 'Villa Terracotta',
     description:
-      'Une composition résidentielle généreuse, entre intimité, façades minérales et espaces extérieurs protégés.',
+      'Une maison solaire et expressive, organisée autour d’une matière terracotta, d’un jardin dense et d’une piscine.',
     detailDescription:
-      'La villa type 3 affirme une écriture résidentielle ample, équilibrant présence architecturale, intimité domestique et protection solaire pour composer des espaces généreux, ouverts et profondément ancrés dans leur climat.',
-    image: projectImage(
-      '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3A.jpeg',
-    ),
-    alt: 'Vue extérieure de la Villa type 3 de la Résidence W',
+      'Villa Terracotta explore une architecture chaleureuse, presque sculptée, où les pleins et les vides cadrent le jardin. Les espaces extérieurs, les terrasses couvertes et les intérieurs ouverts composent un lieu de vie généreux, protégé et lumineux.',
+    image: projectImage('/Projects_Realisations/Focus_6.webp'),
+    alt: 'Villa terracotta avec palmiers, jardin et piscine',
     gallery: [
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3A.jpeg',
-        ),
-        alt: 'Vue principale de la Villa type 3',
-        label: 'Écriture de façade',
+        src: projectImage('/Projects_Realisations/Focus_6.webp'),
+        alt: 'Façade terracotta avec palmiers et baies vitrées',
+        label: 'Façade jardin',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3B.jpeg',
-        ),
-        alt: 'Perspective résidentielle de la Villa type 3',
-        label: 'Séquence d’arrivée',
+        src: projectImage('/Projects_Realisations/[image] - 1240145.jpeg'),
+        alt: 'Vue verticale de la villa terracotta et de son jardin',
+        label: 'Volume principal',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3C.jpeg',
-        ),
-        alt: 'Vue extérieure de la Villa type 3 et de ses espaces ouverts',
-        label: 'Volumes habitables',
+        src: projectImage('/Projects_Realisations/[image] - 720663.jpeg'),
+        alt: 'Terrasse terracotta au bord de la piscine',
+        label: 'Terrasse piscine',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3D.jpeg',
-        ),
-        alt: 'Détail des terrasses et de la matérialité de la Villa type 3',
-        label: 'Terrasses protégées',
-      },
-      {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3E.jpeg',
-        ),
-        alt: 'Perspective architecturale de la Villa type 3 ouverte sur l’extérieur',
-        label: 'Relation intérieur-extérieur',
-      },
-      {
-        src: projectImage(
-          '/Projects_Realisations/Project_1_Residence W - 6 villas - Villa type 3/1_Residence W - 6 villas - Villa type 3F.jpeg',
-        ),
-        alt: 'Dernière vue extérieure de la Villa type 3',
-        label: 'Présence dans le site',
+        src: projectImage('/Projects_Realisations/[image] - 9290582.jpeg'),
+        alt: 'Salon ouvert sur la piscine dans une villa terracotta',
+        label: 'Salon ouvert',
       },
     ],
     tags: [
-      { label: 'Lieu', value: 'Marrakech' },
-      { label: 'Année', value: '2025' },
-      { label: 'Superficie', value: '510 m²' },
+      { label: 'Lieu', value: 'Maroc' },
+      { label: 'Typologie', value: 'Villa' },
+      { label: 'Mission', value: 'Concept & intérieur' },
     ],
   },
   {
-    title: 'Résidence W - Villa type 1',
+    title: 'Villa Arcade',
     description:
-      'Une maison lumineuse et compacte, structurée par des lignes sobres, des percées visuelles et des espaces de vie traversants.',
+      'Un projet résidentiel lumineux, marqué par les arcs, les patios plantés et une piscine comme cœur de composition.',
     detailDescription:
-      'Plus compacte dans son emprise, la villa type 1 développe une architecture nette et lumineuse où chaque ouverture, chaque retrait et chaque matière participent à une sensation d’espace calme et maîtrisé.',
-    image: projectImage(
-      '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1A.jpeg',
-    ),
-    alt: 'Vue extérieure de la Villa type 1 de la Résidence W',
+      'Villa Arcade développe une atmosphère méditerranéenne contemporaine : grandes baies cintrées, volumes blancs, pièces traversantes et jardin comme prolongement naturel des espaces intérieurs. Le projet privilégie la lumière douce, les ombres et la fluidité des circulations.',
+    image: projectImage('/Projects_Realisations/[image] - 5304429.jpeg'),
+    alt: 'Villa blanche avec arcs, jardin luxuriant et piscine',
     gallery: [
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1A.jpeg',
-        ),
-        alt: 'Perspective extérieure de la Villa type 1',
-        label: 'Composition générale',
+        src: projectImage('/Projects_Realisations/[image] - 5304429.jpeg'),
+        alt: 'Vue générale de la Villa Arcade autour de la piscine',
+        label: 'Cour principale',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1B.jpeg',
-        ),
-        alt: 'Vue de la Villa type 1 et de ses ouvertures sur le jardin',
-        label: 'Ouvertures cadrées',
+        src: projectImage('/Projects_Realisations/[image] - 1360008.jpeg'),
+        alt: 'Façade à arcs et piscine de la Villa Arcade',
+        label: 'Façade intérieure',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/2_Residence W - 6 villas - Villa type 1C.jpeg',
-        ),
-        alt: 'Détail extérieur de la Villa type 1',
-        label: 'Lignes et profondeur',
+        src: projectImage('/Projects_Realisations/[image] - 1852534.jpeg'),
+        alt: 'Salon double hauteur avec fenêtres cintrées et suspensions',
+        label: 'Salon double hauteur',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/ChatGPT Image 27 juin 2026, 03_51_09.png',
-        ),
-        alt: 'Vue architecturale complémentaire de la Villa type 1',
-        label: 'Ambiance du projet',
+        src: projectImage('/Projects_Realisations/[image] - 3275777.jpeg'),
+        alt: 'Intérieur lumineux cadrant la cour et la piscine',
+        label: 'Lumière intérieure',
       },
       {
-        src: projectImage(
-          '/Projects_Realisations/Project_2_Residence W - 6 villas - Villa type 1/ChatGPT Image 27 juin 2026, 03_51_19.png',
-        ),
-        alt: 'Visualisation complémentaire de la Villa type 1',
-        label: 'Vision résidentielle',
+        src: projectImage('/Projects_Realisations/[image] - 101623.jpeg'),
+        alt: 'Piscine et jardin avec façade à arcs',
+        label: 'Jardin & bassin',
+      },
+      {
+        src: projectImage('/Projects_Realisations/[image] - 5777285.jpeg'),
+        alt: 'Salon blanc avec arche et vue sur la piscine',
+        label: 'Salon minéral',
       },
     ],
     tags: [
-      { label: 'Lieu', value: 'Marrakech' },
-      { label: 'Année', value: '2025' },
-      { label: 'Superficie', value: '360 m²' },
+      { label: 'Lieu', value: 'Maroc' },
+      { label: 'Typologie', value: 'Villa patio' },
+      { label: 'Mission', value: 'Architecture & intérieur' },
     ],
   },
   {
-    title: 'Maison Tamesloht',
+    title: 'Villa Cactus',
     description:
-      'Une résidence ancrée dans son paysage, équilibrant matières locales, patios ombragés et vues dégagées.',
+      'Une villa graphique, minérale et végétale, où le verre, le béton et les plantations structurent l’expérience.',
     detailDescription:
-      'À Tamesloht, cette maison s’inscrit dans une relation directe avec le paysage, les matières minérales et la lumière du site pour construire une atmosphère sobre, chaleureuse et durable.',
-    image: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco.jpeg'),
-    alt: 'Maison contemporaine à Tamesloht, Marrakech',
+      'Villa Cactus compose une architecture en contraste : lignes noires, grands vitrages, béton apparent et végétation dense. Les espaces extérieurs deviennent des pièces à part entière, capables de filtrer la lumière et de prolonger les usages vers le jardin.',
+    image: projectImage('/Projects_Realisations/Focus_10.webp'),
+    alt: 'Villa contemporaine noire avec palmiers et jardin',
     gallery: [
       {
-        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco.jpeg'),
-        alt: 'Vue principale de la maison à Tamesloht',
-        label: 'Implantation dans le paysage',
+        src: projectImage('/Projects_Realisations/Focus_10.webp'),
+        alt: 'Façade noire avec brise-soleil et végétation tropicale',
+        label: 'Façade graphique',
       },
       {
-        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco0.jpeg'),
-        alt: 'Perspective secondaire de la maison à Tamesloht',
-        label: 'Matières et lumière',
+        src: projectImage('/Projects_Realisations/[image] - 1205273.jpeg'),
+        alt: 'Piscine et jardin planté devant une villa contemporaine',
+        label: 'Piscine jardin',
       },
       {
-        src: projectImage('/Projects_Realisations/Tamesloht, Marrakech, Morocco/Tamesloht, Marrakech, Morocco_1.jpeg'),
-        alt: 'Vue complémentaire de la maison à Tamesloht',
-        label: 'Présence minérale',
+        src: projectImage('/Projects_Realisations/[image] - 5725390.jpeg'),
+        alt: 'Façade vitrée avec casquette bois et palmier',
+        label: 'Façade vitrée',
+      },
+      {
+        src: projectImage('/Projects_Realisations/[image] - 8252998.jpeg'),
+        alt: 'Jardin de cactus et façade contemporaine',
+        label: 'Jardin sec',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Focus_5.webp'),
+        alt: 'Pavillon contemporain ouvert sur une terrasse végétalisée',
+        label: 'Pavillon jardin',
       },
     ],
     tags: [
-      { label: 'Lieu', value: 'Tamesloht' },
-      { label: 'Année', value: '2026' },
-      { label: 'Superficie', value: '980 m²' },
+      { label: 'Lieu', value: 'Maroc' },
+      { label: 'Typologie', value: 'Villa contemporaine' },
+      { label: 'Mission', value: 'Concept' },
+    ],
+  },
+  {
+    title: 'Études & Intérieurs',
+    description:
+      'Une sélection de concepts, d’ambiances et d’études spatiales pour montrer le travail de matière et de lumière.',
+    detailDescription:
+      'Études & Intérieurs rassemble les recherches de Focus Architectes autour des espaces vécus : salons traversants, ateliers de conception, façades minérales et scénarios d’ambiance. Cette série montre le passage entre intention, image et détail architectural.',
+    image: projectImage('/Projects_Realisations/Focus_2.webp'),
+    alt: 'Salon contemporain lumineux avec escalier et jardin intérieur',
+    gallery: [
+      {
+        src: projectImage('/Projects_Realisations/Focus_2.webp'),
+        alt: 'Salon contemporain avec escalier, mobilier coloré et lumière naturelle',
+        label: 'Salon traversant',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Focus_4.webp'),
+        alt: 'Atelier de conception avec maquettes, plans et vue dégagée',
+        label: 'Atelier de conception',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Focus_8.webp'),
+        alt: 'Concept de villa minérale avec mur texturé et végétation',
+        label: 'Façade minérale',
+      },
+      {
+        src: projectImage('/Projects_Realisations/Focus_9.webp'),
+        alt: 'Villa contemporaine sombre avec claustras et jardin planté',
+        label: 'Concept graphite',
+      },
+    ],
+    tags: [
+      { label: 'Lieu', value: 'Maroc' },
+      { label: 'Typologie', value: 'Études' },
+      { label: 'Mission', value: 'Image & ambiance' },
     ],
   },
 ];
@@ -447,8 +459,8 @@ const projectPath = (project: ProjectItem) =>
     .replace(/^-|-$/g, '')}`;
 
 const realisationStats = [
-  { label: 'Projets réalisés', value: '+100' },
-  { label: 'Typologies', value: 'Villas · Immeubles' },
+  { label: 'Projets présentés', value: '5' },
+  { label: 'Typologies', value: 'Villas · Intérieurs' },
   { label: 'Territoire', value: 'Maroc' },
 ];
 
@@ -686,7 +698,7 @@ function SiteHeader() {
     <div className="relative z-30 px-6 pt-6 md:px-12 lg:px-16">
       <nav className="liquid-glass flex items-center justify-between rounded-xl px-4 py-2">
         <a className="text-2xl font-semibold tracking-tight text-white" href="/" onClick={() => setMobileMenuOpen(false)}>
-          2AAZ
+          Focus Architectes
         </a>
 
         <div className="hidden items-center gap-8 text-sm text-white md:flex">
@@ -807,7 +819,7 @@ function Footer() {
         <div className="grid gap-6 pb-4 pt-8 md:pb-5 md:pt-9 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.7fr)_minmax(0,0.8fr)] lg:gap-10">
           <div>
             <a className="text-3xl font-semibold tracking-tight text-white" href="/">
-              2AAZ
+              Focus Architectes
             </a>
             <p className="mt-3 max-w-md text-sm font-light leading-relaxed text-gray-400 md:text-base">
               Architecture, visualisation et accompagnement de projet avec une attention précise au lieu, au climat et au
@@ -829,14 +841,14 @@ function Footer() {
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-gray-500">Coordonnées</p>
             <div className="mt-3 grid gap-2 text-sm font-light text-gray-300">
-              <a className="transition-colors hover:text-white" href="mailto:contact@2aaz.ma">
-                contact@2aaz.ma
+              <a className="transition-colors hover:text-white" href={`mailto:${contactEmail}`}>
+                {contactEmail}
               </a>
-              <a className="transition-colors hover:text-white" href="tel:+212661884341">
-                06 61 88 43 41
+              <a className="transition-colors hover:text-white" href={contactPhoneHref}>
+                {contactPhone}
               </a>
-              <p>Résidence Clarisse, Rue Mohamed El Bekal 115, Marrakech 40000</p>
-              <p>Marrakech, Maroc</p>
+              <p>{contactAddress}</p>
+              <p>Casablanca, Maroc</p>
               <button
                 className="mt-3 inline-flex w-fit items-center gap-2 text-xs font-light uppercase tracking-[0.18em] text-white transition-opacity duration-300 hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -856,13 +868,13 @@ function Footer() {
           />
           <div className="relative overflow-hidden">
             <p className="pointer-events-none select-none text-[clamp(4.8rem,24vw,18rem)] font-semibold leading-[0.8] tracking-tight text-white">
-              2AAZ
+              FOCUS
             </p>
           </div>
         </div>
 
         <div className="mt-3 flex border-t border-white/10 pt-4 text-xs font-light uppercase tracking-[0.18em] text-gray-500">
-          <p>2AAZ Studio d’architecture</p>
+          <p>Focus Architectes · Studio d’architecture</p>
         </div>
       </div>
     </footer>
@@ -940,7 +952,7 @@ function App() {
     const email = String(data.get('email') ?? '').trim();
     const projectType = String(data.get('projectType') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
-    const subject = `Demande de projet 2AAZ - ${name || 'Nouveau contact'}`;
+    const subject = `Demande de projet Focus Architectes - ${name || 'Nouveau contact'}`;
     const body = [
       `Nom: ${name}`,
       `Téléphone / WhatsApp: ${phone}`,
@@ -1401,14 +1413,12 @@ function App() {
       {path === '/' && (
         <>
           <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-black">
-        <video
-          ref={videoRef}
+        <img
+          alt="Villa contemporaine conçue par Focus Architectes"
           className="absolute inset-0 h-full w-full object-cover"
-          src={videoSrc}
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
+          decoding="async"
+          fetchPriority="high"
+          src={heroImageSrc}
         />
         <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
 
@@ -1442,7 +1452,7 @@ function App() {
 
             <FadeIn delay={1400} duration={1000} className="mt-6 flex items-end justify-start lg:mt-0 lg:justify-end">
               <div className="liquid-glass rounded-xl border border-white/20 px-4 py-2.5 md:px-5 md:py-3">
-                <p className="text-sm font-light text-white md:text-base lg:text-lg">+100 projets réalisés</p>
+                <p className="text-sm font-light text-white md:text-base lg:text-lg">5 projets sélectionnés</p>
               </div>
             </FadeIn>
           </div>
@@ -1458,14 +1468,14 @@ function App() {
       </section>
 
       <section
-        id="fondateur"
+        id="agence"
         ref={founderRef}
         className="relative overflow-hidden bg-[#f3f1ec] px-6 py-20 text-[#111111] md:px-12 lg:px-16 lg:py-28"
       >
         <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] lg:items-start lg:gap-14">
           <div className="lg:pt-4">
             <p className="text-sm uppercase tracking-[0.2em] text-[#7c766f]">Mot du fondateur</p>
-            <h2 className="sr-only">Mot du fondateur de 2AAZ</h2>
+            <h2 className="sr-only">Mot du fondateur de Focus Architectes</h2>
 
             <p className="mt-7 max-w-5xl text-[clamp(1.85rem,3.65vw,4.15rem)] font-light leading-[1.12] tracking-tight text-[#beb8af]">
               {founderStatement.split(' ').map((word, index) => (
@@ -1492,7 +1502,7 @@ function App() {
             <figure className="overflow-hidden rounded-xl bg-[#d8d0c4]">
               <div className="relative aspect-[4/5]">
                 <img
-                  alt="Portrait de Ajana Zouheir, fondateur de 2AAZ"
+                  alt="Portrait de Omar Benchakroun, CEO et architecte de Focus Architectes"
                   className="absolute inset-0 h-full w-full object-cover object-center"
                   decoding="async"
                   loading="lazy"
@@ -1502,8 +1512,8 @@ function App() {
               </div>
             </figure>
             <div className="mt-4 border-t border-black/10 px-1 pt-4">
-              <p className="text-lg font-medium tracking-tight text-[#111111]">AJANA ZOUHEIR</p>
-              <p className="mt-1 text-sm uppercase tracking-[0.18em] text-[#807972]">Fondateur, 2AAZ</p>
+              <p className="text-lg font-medium tracking-tight text-[#111111]">OMAR BENCHAKROUN</p>
+              <p className="mt-1 text-sm uppercase tracking-[0.18em] text-[#807972]">CEO et architecte</p>
             </div>
           </aside>
         </div>
@@ -1663,8 +1673,7 @@ function App() {
               </h2>
             </div>
             <p className="hidden max-w-xl text-base font-light leading-relaxed text-gray-300 md:block lg:justify-self-end lg:text-right">
-              Quatre exemples de réalisations, présentés comme des plans successifs pour laisser l’image raconter
-              l’atmosphère, la matière et l’échelle.
+              Cinq réalisations Focus Architectes, entre villas contemporaines, intérieurs lumineux et études d’ambiance.
             </p>
           </div>
 
@@ -1747,7 +1756,7 @@ function App() {
             />
             <div className="relative flex w-full flex-col justify-start gap-10 md:justify-between md:gap-8">
               <div>
-                <p className="text-sm uppercase tracking-[0.22em] text-gray-500">À propos de 2AAZ</p>
+                <p className="text-sm uppercase tracking-[0.22em] text-gray-500">À propos de Focus Architectes</p>
                 <div className="mt-7 max-w-[62rem] md:mt-8">
                   <AnimatedHeading
                     charDelay={22}
@@ -1781,54 +1790,54 @@ function App() {
                   Architecture · Maroc · Résidentiel & projets sur mesure
                 </p>
                 <p className="max-w-3xl text-base font-light leading-relaxed text-gray-300 md:text-xl">
-                  Chez 2AAZ, chaque projet naît d’une lecture attentive du lieu, des usages et de la lumière. Notre
-                  mission est de transformer une intention en architecture durable, élégante et profondément adaptée à
+                  Chez Focus Architectes, chaque projet naît d’une lecture attentive du lieu, des usages et de la lumière.
+                  Notre mission est de transformer une intention en architecture durable, élégante et profondément adaptée à
                   son contexte.
                 </p>
               </div>
             </div>
           </section>
 
-          <section className="relative overflow-hidden bg-[#0d0b08] px-6 py-14 md:px-12 md:py-20 lg:px-16 lg:py-28">
-            <div className="absolute inset-x-0 top-0 h-px bg-white/10" aria-hidden="true" />
+          <section className="relative overflow-hidden bg-[#050504] px-6 py-14 md:px-12 md:py-20 lg:px-16 lg:py-28">
+            <div className="absolute inset-x-0 top-0 h-px bg-white/20" aria-hidden="true" />
             <div
-              className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(180,132,74,0.11),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_44%)]"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(214,176,116,0.16),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.01)_44%,rgba(0,0,0,0.42))]"
               aria-hidden="true"
             />
 
             <div className="relative">
               <div className="grid gap-6 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1fr)] lg:items-end">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.22em] text-gray-500">Notre approche</p>
+                  <p className="text-sm uppercase tracking-[0.22em] text-gray-300">Notre approche</p>
                   <h2 className="mt-5 max-w-4xl text-4xl font-light leading-tight text-white md:text-6xl lg:text-7xl">
                     Une méthode claire, du premier échange à la livraison.
                   </h2>
                 </div>
-                <p className="max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-lg lg:justify-self-end lg:text-right">
+                <p className="max-w-2xl text-base font-light leading-relaxed text-gray-200 md:text-lg lg:justify-self-end lg:text-right">
                   Chaque étape structure la décision, protège l’intention architecturale et donne au projet une
                   progression lisible, exigeante et sereine.
                 </p>
               </div>
 
-              <div className="mt-12 hidden h-[32rem] overflow-hidden rounded-2xl border border-white/10 bg-black/25 shadow-2xl shadow-black/40 lg:flex">
+              <div className="mt-12 hidden h-[32rem] overflow-hidden rounded-2xl border border-white/20 bg-black/55 shadow-2xl shadow-black/60 lg:flex">
                 {processItems.map((item, index) => {
                   const isActive = activeProcess === index;
 
                   return (
                     <button
                       aria-expanded={isActive}
-                      className={`group relative min-w-0 overflow-hidden border-r border-white/10 px-7 py-8 text-left outline-none transition-[flex,background-color] duration-500 ease-out last:border-r-0 focus-visible:ring-2 focus-visible:ring-white/70 ${
-                        isActive ? 'flex-[5_1_0%] bg-white/[0.075]' : 'flex-[1_1_0%] bg-white/[0.025] hover:bg-white/[0.045]'
+                      className={`group relative min-w-0 overflow-hidden border-r border-white/20 px-7 py-8 text-left outline-none transition-[flex,background-color] duration-500 ease-out last:border-r-0 focus-visible:ring-2 focus-visible:ring-white/80 ${
+                        isActive ? 'flex-[5_1_0%] bg-white/[0.16]' : 'flex-[1_1_0%] bg-white/[0.055] hover:bg-white/[0.095]'
                       }`}
                       key={item.title}
                       onFocus={() => setActiveProcess(index)}
                       onMouseEnter={() => setActiveProcess(index)}
                       type="button"
                     >
-                      <span className="absolute inset-0 bg-gradient-to-br from-white/[0.035] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <span className="absolute inset-0 bg-gradient-to-br from-white/[0.09] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       <span
-                        className={`absolute bottom-6 left-7 text-[12rem] font-light leading-none text-white/10 transition-[opacity,transform] duration-500 ${
-                          isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-45'
+                        className={`absolute bottom-6 left-7 text-[12rem] font-light leading-none text-white/15 transition-[opacity,transform] duration-500 ${
+                          isActive ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-55'
                         }`}
                         aria-hidden="true"
                       >
@@ -1836,7 +1845,7 @@ function App() {
                       </span>
 
                       <span className="relative z-10 flex h-full flex-col justify-between">
-                        <span className="text-sm font-light tabular-nums tracking-[0.2em] text-gray-500">
+                        <span className="text-sm font-light tabular-nums tracking-[0.2em] text-gray-300">
                           {String(index + 1).padStart(2, '0')}
                         </span>
 
@@ -1849,7 +1858,7 @@ function App() {
                             {item.title}
                           </span>
                           <span
-                            className={`mt-5 block max-w-2xl text-base font-light leading-relaxed text-gray-300 transition-[opacity,max-height] duration-500 ${
+                            className={`mt-5 block max-w-2xl text-base font-light leading-relaxed text-gray-100 transition-[opacity,max-height] duration-500 ${
                               isActive ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
                             }`}
                           >
@@ -1864,12 +1873,12 @@ function App() {
 
               <div className="mt-10 grid gap-3 lg:hidden">
                 {processItems.map((item, index) => (
-                  <article className="liquid-glass rounded-xl px-5 py-5" key={item.title}>
-                    <p className="text-sm font-light tabular-nums tracking-[0.2em] text-gray-500">
+                  <article className="rounded-xl border border-white/20 bg-white/[0.085] px-5 py-5 shadow-xl shadow-black/35" key={item.title}>
+                    <p className="text-sm font-light tabular-nums tracking-[0.2em] text-gray-300">
                       {String(index + 1).padStart(2, '0')}
                     </p>
                     <h3 className="mt-8 text-2xl font-light leading-tight text-white">{item.title}</h3>
-                    <p className="mt-4 text-base font-light leading-relaxed text-gray-300">{item.description}</p>
+                    <p className="mt-4 text-base font-light leading-relaxed text-gray-100">{item.description}</p>
                   </article>
                 ))}
               </div>
@@ -1888,7 +1897,7 @@ function App() {
             <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:items-start lg:gap-14">
               <div className="lg:pt-3">
                 <p className="text-sm uppercase tracking-[0.2em] text-[#807972]">Philosophie</p>
-                <h2 className="sr-only">Philosophie de 2AAZ</h2>
+                <h2 className="sr-only">Philosophie de Focus Architectes</h2>
 
                 <p className="mt-7 max-w-5xl text-[clamp(1.9rem,3.9vw,4.35rem)] font-light leading-[1.1] tracking-tight text-[#beb5a9]">
                   {aboutManifestoStatement.split(' ').map((word, index) => (
@@ -2472,14 +2481,14 @@ function App() {
                       },
                       {
                         label: 'Téléphone',
-                        value: '06 61 88 43 41',
-                        href: 'tel:+212661884341',
+                        value: contactPhone,
+                        href: contactPhoneHref,
                         Icon: Phone,
                       },
                       {
                         label: 'Adresse',
-                        value: 'Résidence Clarisse, Rue Mohamed El Bekal 115, Marrakech 40000',
-                        href: 'https://maps.google.com/?q=R%C3%A9sidence%20Clarisse%2C%20Rue%20Mohamed%20El%20Bekal%20115%2C%20Marrakech%2040000',
+                        value: contactAddress,
+                        href: googleMapsHref,
                         Icon: MapPin,
                       },
                     ].map(({ label, value, href, Icon }) => (
@@ -2510,12 +2519,25 @@ function App() {
                       </span>
                       <div>
                         <p className="text-xs uppercase tracking-[0.22em] text-gray-500">Horaires</p>
-                        <p className="mt-2 text-base font-light text-white md:text-lg">Lundi - Vendredi · 10:00 - 18:00</p>
+                        <p className="mt-2 text-base font-light text-white md:text-lg">Ouvert · Mardi 09:00–18:00</p>
                       </div>
                     </div>
-                    <p className="mt-4 text-sm font-light leading-relaxed text-gray-400">
-                      Samedi et dimanche fermé. Les premières demandes sont généralement traitées sous 24h ouvrées.
-                    </p>
+                    <div className="mt-5 grid gap-2 text-sm font-light leading-relaxed text-gray-300">
+                      {[
+                        ['Lundi', '09:00–18:00'],
+                        ['Mardi', '09:00–18:00'],
+                        ['Mercredi', '09:00–18:00'],
+                        ['Jeudi', '09:00–18:00'],
+                        ['Vendredi', '09:00–18:00'],
+                        ['Samedi', '09:00–12:30'],
+                        ['Dimanche', 'Fermé'],
+                      ].map(([day, hours]) => (
+                        <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-2 last:border-b-0 last:pb-0" key={day}>
+                          <span>{day}</span>
+                          <span className="text-white">{hours}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </aside>
 
@@ -2540,7 +2562,7 @@ function App() {
                       <input
                         className="mt-2 h-12 w-full rounded-lg border border-white/15 bg-black/35 px-4 text-base font-light text-white outline-none transition-colors placeholder:text-gray-600 focus:border-white/60"
                         name="phone"
-                        placeholder="Votre numéro"
+                        placeholder={contactPhone}
                         required
                         type="tel"
                       />
@@ -2595,12 +2617,12 @@ function App() {
                   <div>
                     <p className="text-xs uppercase tracking-[0.24em] text-gray-500">Localisation</p>
                     <p className="mt-2 max-w-2xl text-base font-light leading-relaxed text-gray-300 md:text-lg">
-                      Résidence Clarisse, Rue Mohamed El Bekal 115, Marrakech 40000
+                      {contactAddress}
                     </p>
                   </div>
                   <a
                     className="inline-flex w-fit items-center gap-2 text-sm font-light text-white/80 transition-colors hover:text-white"
-                    href="https://maps.google.com/?q=R%C3%A9sidence%20Clarisse%2C%20Rue%20Mohamed%20El%20Bekal%20115%2C%20Marrakech%2040000"
+                    href={googleMapsHref}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -2609,15 +2631,15 @@ function App() {
                   </a>
                 </div>
 
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-black/40">
+                <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden border-y border-white/10 bg-black shadow-2xl shadow-black/40">
                   <iframe
                     allowFullScreen
-                    className="h-[22rem] w-full md:h-[28rem] lg:h-[32rem]"
+                    className="h-[62dvh] min-h-[24rem] w-full md:h-[70dvh] md:min-h-[30rem] lg:max-h-[44rem]"
                     loading="lazy"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3396.839013946406!2d-8.016635399999998!3d31.6382579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafeff9ace393a7%3A0xb3ba3f7ec3918ae2!2sAgence%20d%E2%80%99architecture%202AAZ%20-%20Architecte%20Marrakech!5e0!3m2!1sfr!2sma!4v1782669460302!5m2!1sfr!2sma"
+                    src={googleMapsEmbedSrc}
                     style={{ border: 0 }}
-                    title="Localisation de l'agence 2AAZ à Marrakech"
+                    title="Localisation de l'agence Focus Architectes à Marrakech"
                   />
                 </div>
               </div>

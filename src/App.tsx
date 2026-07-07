@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -25,7 +25,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projectImage = (path: string) => encodeURI(path);
 
-const heroImageSrc = projectImage('/Projects_Realisations/Focus_1.webp');
+const heroSlideDurationMs = 4300;
+const heroSlides = [
+  {
+    image: projectImage('/Projects_Realisations/Focus_1.webp'),
+    alt: 'Villa contemporaine conçue par Focus Architectes',
+  },
+  {
+    image: projectImage('/Projects_Realisations/Focus_2.webp'),
+    alt: 'Intérieur lumineux conçu par Focus Architectes',
+  },
+  {
+    image: projectImage('/Projects_Realisations/Focus_3.webp'),
+    alt: 'Projet résidentiel contemporain par Focus Architectes',
+  },
+  {
+    image: projectImage('/Projects_Realisations/Focus_6.webp'),
+    alt: 'Ambiance architecturale signée Focus Architectes',
+  },
+];
 const founderImageSrc = '/team/linkedin-sales-solutions-pAtA8xe_iVM-unsplash.jpg';
 const contactPhone = '06 61 30 15 57';
 const contactPhoneHref = 'tel:+212661301557';
@@ -895,8 +913,10 @@ function App() {
   const aboutManifestoWordRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const projectsRef = useRef<HTMLElement>(null);
   const projectCardRefs = useRef<Array<HTMLElement | null>>([]);
+  const heroStartTimeRef = useRef(Date.now());
   const [openExpertise, setOpenExpertise] = useState<number | null>(null);
   const [activeProcess, setActiveProcess] = useState(0);
+  const [heroClock, setHeroClock] = useState(() => Date.now());
   const normalizePath = (nextPath: string) => {
     if (nextPath.length > 1 && nextPath.endsWith('/')) {
       return nextPath.slice(0, -1);
@@ -919,6 +939,11 @@ function App() {
   const galleryPrimaryImage = currentProjectGallery[0] ?? null;
   const gallerySecondaryImages = currentProjectGallery.slice(1, 3);
   const galleryRemainingImages = currentProjectGallery.slice(3);
+  const activeHeroSlide =
+    path === '/' && !shouldReduceMotion
+      ? Math.floor(Math.max(0, heroClock - heroStartTimeRef.current) / heroSlideDurationMs) % heroSlides.length
+      : 0;
+  const activeHero = heroSlides[activeHeroSlide] ?? heroSlides[0];
   const supportsFineHover = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const openExpertiseOnHover = (index: number) => {
     if (supportsFineHover()) {
@@ -965,6 +990,28 @@ function App() {
 
     window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
+
+  useEffect(() => {
+    if (path !== '/') {
+      return;
+    }
+
+    heroStartTimeRef.current = Date.now();
+    setHeroClock(heroStartTimeRef.current);
+  }, [path]);
+
+  useEffect(() => {
+    if (path !== '/' || shouldReduceMotion) {
+      return;
+    }
+
+    const elapsed = Math.max(0, Date.now() - heroStartTimeRef.current);
+    const timeUntilNextSlide = heroSlideDurationMs - (elapsed % heroSlideDurationMs);
+    const slideTimer = window.setTimeout(() => setHeroClock(Date.now()), timeUntilNextSlide + 24);
+
+    return () => window.clearTimeout(slideTimer);
+  }, [heroClock, path, shouldReduceMotion]);
+
   const handleHeroScrollCueClick = async () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const heroTrigger = heroScrollTriggerRef.current ?? ScrollTrigger.getById('home-hero-video') ?? null;
@@ -1413,14 +1460,71 @@ function App() {
       {path === '/' && (
         <>
           <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-black">
-        <img
-          alt="Villa contemporaine conçue par Focus Architectes"
-          className="absolute inset-0 h-full w-full object-cover"
-          decoding="async"
-          fetchPriority="high"
-          src={heroImageSrc}
-        />
-        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={activeHero.image}
+            className="absolute inset-0 overflow-hidden"
+            initial={
+              shouldReduceMotion
+                ? false
+                : {
+                    opacity: 0.35,
+                    x: 34,
+                    scale: 1.035,
+                    rotate: 0.55,
+                    filter: 'blur(8px)',
+                    clipPath: 'polygon(100% 0%, 100% 0%, 105% 100%, 105% 100%)',
+                  }
+            }
+            animate={{
+              opacity: 1,
+              x: 0,
+              scale: 1,
+              rotate: 0,
+              filter: 'blur(0px)',
+              clipPath: 'polygon(-5% 0%, 100% 0%, 105% 100%, 0% 100%)',
+            }}
+            exit={
+              shouldReduceMotion
+                ? undefined
+                : {
+                    opacity: 0,
+                    x: -28,
+                    scale: 1.025,
+                    rotate: -0.4,
+                    filter: 'blur(6px)',
+                    clipPath: 'polygon(-5% 0%, -5% 0%, 0% 100%, 0% 100%)',
+                  }
+            }
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.78,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <motion.img
+              alt={activeHero.alt}
+              className="h-full w-full object-cover"
+              decoding="async"
+              fetchPriority={activeHeroSlide === 0 ? 'high' : 'auto'}
+              initial={shouldReduceMotion ? false : { scale: 1.1, x: '-1.4%', y: '0.8%' }}
+              animate={{ scale: shouldReduceMotion ? 1 : 1.025, x: '0%', y: '0%' }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : heroSlideDurationMs / 1000 + 0.55,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              src={activeHero.image}
+            />
+            {!shouldReduceMotion && (
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-[-12%] left-0 w-[38%] -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent)] mix-blend-screen"
+                initial={{ x: '-140%', opacity: 0 }}
+                animate={{ x: '310%', opacity: [0, 0.75, 0] }}
+                transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         <div className="relative z-10 flex min-h-screen flex-col">
           <SiteHeader />
@@ -1451,8 +1555,28 @@ function App() {
             </div>
 
             <FadeIn delay={1400} duration={1000} className="mt-6 flex items-end justify-start lg:mt-0 lg:justify-end">
-              <div className="liquid-glass rounded-xl border border-white/20 px-4 py-2.5 md:px-5 md:py-3">
-                <p className="text-sm font-light text-white md:text-base lg:text-lg">5 projets sélectionnés</p>
+              <div className="liquid-glass w-full max-w-xs rounded-xl border border-white/20 px-4 py-3 md:px-5 md:py-4">
+                <p className="text-sm font-light text-white md:text-base lg:text-lg">+ 100 projets réalisés</p>
+                <div className="mt-3 grid grid-cols-4 gap-2" aria-label="Progression des images du hero">
+                  {heroSlides.map((slide, index) => (
+                    <div className="h-1 overflow-hidden rounded-full bg-white/20" key={slide.image}>
+                      <motion.div
+                        key={`${activeHeroSlide}-${slide.image}`}
+                        className="h-full origin-left rounded-full bg-white"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: index === activeHeroSlide ? 1 : 0 }}
+                        transition={{
+                          duration:
+                            index === activeHeroSlide && !shouldReduceMotion ? heroSlideDurationMs / 1000 : 0,
+                          ease: 'linear',
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs font-light tabular-nums text-white/70">
+                  {String(activeHeroSlide + 1).padStart(2, '0')} / {String(heroSlides.length).padStart(2, '0')}
+                </p>
               </div>
             </FadeIn>
           </div>
